@@ -48,3 +48,10 @@ X_validation+=data ; y_validation+=labels
 
 data, labels =load_data(os.path.join(data_path,"val/PNEUMONIA"),1)
 X_validation+=data ; y_validation+=labels
+
+#test
+data, labels = load_data(os.path.join(data_path, "test/NORMAL"),0)
+X_test+=data ; y_test+=labels
+
+data,labels = load_data(os.path.join(data_path, "test/PNEUMONIA"),1)
+X_test+=data ; y_test+=labels
