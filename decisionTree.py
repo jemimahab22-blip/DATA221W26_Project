@@ -27,3 +27,17 @@ def load_data(folder_path, label):
         labels.append(label)
 
     return data, labels
+
+#here, I am getting the dataset from the path
+data_path = "C:/Users/jemim/OneDrive - University of Calgary/Desktop/DATA 221/Pneumonia-Chest Xray/chest_xray"
+
+X_train, y_train =[],[]
+X_validation, y_validation=[],[]
+X_test, y_test=[],[]
+
+#I am training the model
+data, labels = load_data(os.path.join(data_path ,"train/NORMAL"),0)
+X_train+= data ; y_train+=labels
+
+data, labels = load_data(os.path.join(data_path,"train/PNEUMONIA"),1)
+X_train+=data ; y_train+=labels
