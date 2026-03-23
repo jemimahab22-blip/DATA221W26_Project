@@ -75,7 +75,21 @@ layers.Dense(1, activation='sigmoid')
 
 #  Compile the Model
 # We use binary_crossentropy because this is a binary task!
+model.compile(
+    optimizer='adam',
+    loss='$binary_crossentropy$',
+    metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
 
 # Train the model
 # We use 'epochs=10' to start, which means the model sees the data 10 times
 # Your proposal emphasizes a 'fair testing environment'
+
+history = model.fit(
+    training_dataset,
+    validation_data =validation_dataset,
+    epochs=10
+)
+
+# Final Evaluation on the Test Set
+print("\n--- Final Test Set Evaluation ---")
+model.evaluate(test_dataset)
