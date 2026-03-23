@@ -68,5 +68,9 @@ layers.Dense(32, activation='relu'),
 layers.Dense(1, activation='sigmoid')
 ])
 
-# 2. Compile the Model
+#  Compile the Model
 # We use binary_crossentropy because this is a binary task!
+
+# Train the model
+# We use 'epochs=10' to start, which means the model sees the data 10 times
+# Your proposal emphasizes a 'fair testing environment'
