@@ -133,8 +133,49 @@ PROPOSAL ALIGNMENT & RESULTS SUMMARY:
   dangerous False Negatives (only 52) as prioritized in our medical context.
 """
 
-
-# --- STEP 1: DATA ACQUISITION ---
 # We use kagglehub to ensure we are always working with the latest version of the
 # Chest X-ray Pneumonia dataset (Kermany et al., 2018).
 # Defining explicit paths for the three required data splits: Train, Validation,
+
+# ==============================================================================
+# FINAL PROJECT SUMMARY: NEURAL NETWORK PERFORMANCE & PROPOSAL ALIGNMENT
+# Student: Ruth Igogo | Project: Pneumonia Detection from Chest X-Ray Images
+# ==============================================================================
+
+"""
+ARCHITECTURE & PIPELINE ALIGNMENT:
+Standardized Pipeline: Successfully implemented the uniform image resizing 
+(150x150) and pixel normalization (0-1) as planned in the proposal.
+Model Design: Built a multi-layered Neural Network using ReLU activation 
+to capture non-linear textures in the X-ray data, moving beyond the 'black box' approach by comparing performance metrics
+
+EVALUATION METRICS (RESULTS):
+
+Binary Classification: Successfully separated 'Normal' vs 'Pneumonia' cases.
+
+Confusion Matrix Insights:
+
+True Positives (338): High detection rate for actual pneumonia cases.
+
+True Negatives (40): Correct identification of healthy lungs.
+
+False Negatives (52): Minimized these 'critical' errors as prioritized
+in our medical context
+
+
+SUCCESS CRITERIA MET:
+
+The model demonstrated a strong 'Recall' (Sensitivity), which was a
+primary goal for our group to ensure patient safety.
+
+The Neural Network provided the 'best predictive performance' predicted
+in our abstract due to its ability to process complex image patterns
+better than basic classifiers
+
+
+CONCLUSION:
+The Neural Network successfully established a high performance floor for
+the project, confirming that deep learning is a highly effective tool
+for automated pneumonia screening in pediatric patients.
+"""
+
