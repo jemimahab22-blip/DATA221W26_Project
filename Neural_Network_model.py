@@ -7,7 +7,7 @@ path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
 print("Path to dataset files:", path)
 
 # 2. Define the FULL subfolder paths explicitly
-# The Kaggle dataset structure is: path / $chest_xray$ / [train, val, test]
+# The Kaggle dataset structure is: path / chest_xray / [train, val, test]
 train_directory_path = os.path.join(path, "chest_xray", "train")
 validation_directory_path = os.path.join(path, "chest_xray", "val")
 test_directory_path = os.path.join(path, "chest_xray", "test")
@@ -77,12 +77,12 @@ layers.Dense(1, activation='sigmoid')
 # We use binary_crossentropy because this is a binary task!
 model.compile(
     optimizer='adam',
-    loss='$binary_crossentropy$',
+    loss='binary_crossentropy',
     metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
 
 # Train the model
 # We use 'epochs=10' to start, which means the model sees the data 10 times
-# Your proposal emphasizes a 'fair testing environment'
+# our proposal emphasizes a 'fair testing environment'
 
 history = model.fit(
     training_dataset,
