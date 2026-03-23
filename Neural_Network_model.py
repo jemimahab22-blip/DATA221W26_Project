@@ -2,6 +2,7 @@ import kagglehub
 import tensorflow as tf
 import os
 
+#part for Ruth Igogo
 # 1. Download latest version of the dataset
 path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
 print("Path to dataset files:", path)
