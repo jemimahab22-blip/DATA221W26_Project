@@ -45,6 +45,11 @@ test_dataset = tf.keras.utils.image_dataset_from_directory(
 # 4. Normalization (Rescale pixel values from 0-255 to 0-1)
 # our group's proposal prioritizes this for stable training!
 
+normalization_layer = tf.keras.layers.Rescaling(1./255)
+training_dataset = training_dataset.map(lambda x, y: (normalization_layer(x), y))
+validation_dataset = validation_dataset.map(lambda x, y: (normalization_layer(x), y))
+test_dataset = test_dataset.map(lambda x, y: (normalization_layer(x), y))
+
 from tensorflow.keras import layers, models
 
 # 1. Define the Multi-Layered Architecture
