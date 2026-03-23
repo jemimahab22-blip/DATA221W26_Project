@@ -93,3 +93,26 @@ history = model.fit(
 # Final Evaluation on the Test Set
 print("\n--- Final Test Set Evaluation ---")
 model.evaluate(test_dataset)
+
+#visualizing the data
+
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+# 1. Get predictions for the test set
+# This takes the test images and predicts 'Pneumonia' probability
+y_pred_probs = model.predict(test_dataset)
+y_pred = (y_pred_probs > 0.5).astype(int) # Convert probability to 0 or 1
+
+# 2. Get the true labels from the test set
+y_true = np.concatenate([y for x, y in test_dataset], axis=0)
+
+# 3. Create and Plot the Confusion Matrix
+cm = confusion_matrix (y_true, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix =cm, display_labels =['Normal', 'Pneumonia'])
+disp.plot(cmap=plt.cm.Blues)
+plt.title('Pneumonia Detection: Confusion Matrix')
+plt.show()
+
+print("✅ Visualization complete! This is your 4th and final commit milestone.")
