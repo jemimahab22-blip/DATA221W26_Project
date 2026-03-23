@@ -4,6 +4,7 @@ import os
 
 #part for Ruth Igogo
 # 1. Download latest version of the dataset
+
 path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
 print("Path to dataset files:", path)
 
@@ -117,3 +118,23 @@ plt.title('Pneumonia Detection: Confusion Matrix')
 plt.show()
 
 print("Visualization complete!")
+
+"""
+Pneumonia Detection: Neural Network Implementation
+Student: Ruth Igogo
+Course: DATA 221 - Introduction to Data Science
+
+PROPOSAL ALIGNMENT & RESULTS SUMMARY:
+- Goal: Create a multi-layered Neural Network to detect pneumonia from Chest X-rays.
+- Pipeline: Met the requirement for a standardized preprocessing pipeline (Resizing & Normalization).
+- Task: Binary Classification (Normal vs. Pneumonia).
+- Success Criteria: Achieved a model capable of capturing complex textures in X-ray data.
+- Result Analysis: The model shows high Recall (338 True Positives), minimizing 
+  dangerous False Negatives (only 52) as prioritized in our medical context.
+"""
+
+
+# --- STEP 1: DATA ACQUISITION ---
+# We use kagglehub to ensure we are always working with the latest version of the
+# Chest X-ray Pneumonia dataset (Kermany et al., 2018).
+# Defining explicit paths for the three required data splits: Train, Validation,
