@@ -3,8 +3,11 @@ import os
 import cv2
 import kagglehub
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score,roc_auc_score,confusion_matrix,ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score,roc_auc_score,confusion_matrix
 import matplotlib.pyplot as plt
+
+# All models use the same preprocessing pipeline (resize, grayscale, normalization)
+# to ensure a fair comparison across models
 
 #This dataset was already split, trained, validated and tested
 #We now have to convert the images into features since the Decision Tree Classifier does not work well with images according the research.
@@ -23,7 +26,7 @@ def load_data(path, label):
 
         image = cv2.resize(image, (100,100))   #resizing the image
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) #converting to the grayscale
-        image = image/225.0 #Normalizing the image
+        image = image/255.0 #Normalizing the image
 
         image = image.flatten() #Flattening the image to 1D
 
@@ -50,9 +53,6 @@ X_train+= data_ ; y_train+=labels_
 
 data_, labels_ = load_data(os.path.join(data_path,"train","PNEUMONIA"),1)
 X_train+=data_ ; y_train+=labels_
-
-print("\nTrain NORMAL:", np.sum(y_train == 0))
-print("\nTrain PNEUMONIA:", np.sum(y_train == 1))
 
 #Validation
 data_, labels_ = load_data(os.path.join(data_path,"val","NORMAL"),0)
@@ -107,13 +107,37 @@ f1_1 = f1_score(y_test,model_predicted)
 f1_2 = f1_score(y_validation,validation_predicted)
 #ROC_AUC
 y_probs = model_fitted.predict_proba(X_test)[:,1]
-y_probs_= model_fitted.predict_proba(y_validation)[:,1]
+y_probs_= model_fitted.predict_proba(X_validation)[:,1]
 roc_auc1 = roc_auc_score(y_test, y_probs)
 roc_auc2 = roc_auc_score(y_validation,y_probs_)
 
-print("\nROC-AUC1:", roc_auc1 ,"and ROC-AUC2:", roc_auc2)
-print("\nThe accuracy of the tree is: ",accuracy1,"and the validation accuracy is: ",accuracy2)
-print("\nThe precision1 score is: ",precision1, "and the precision2 score is: ",precision2)
-print("\nThe recall score1 is: ",recall1, "and the recall score2 is:",recall2)
-print("\nThe f1 score1 is: ",f1_1, "and the f1 score2 is: ",f1_2)
+print("\n--- Decision Tree Performance ---")
+print(f"Test Accuracy: {accuracy1:.4f}")
+print(f"Validation Accuracy: {accuracy2:.4f}")
+print(f"Precision: {precision1:.4f}")
+print(f"Recall: {recall1:.4f}")
+print(f"F1 Score: {f1_1:.4f}")
+print(f"ROC-AUC: {roc_auc1:.4f}")
 
+# Interpretation:
+# High recall is important in this problem because missing pneumonia cases (false negatives)
+# can be dangerous in a medical context.
+# Precision shows how reliable positive predictions are.
+
+#getting the confusion matrix between the dataset
+cm = confusion_matrix(y_test,model_predicted)
+print("\nThis is the confusion matrix for the training dataset: ",cm)
+
+import seaborn as sns
+
+sns.heatmap(cm,
+            annot=True,
+            fmt='d',
+            cmap='Blues',
+            xticklabels=["NORMAL", "PNEUMONIA"],
+            yticklabels=["NORMAL", "PNEUMONIA"])
+
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix - Decision Tree")
+plt.show()
