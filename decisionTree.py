@@ -3,7 +3,7 @@ import os
 import cv2
 import kagglehub
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score,confusion_matrix,ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score,roc_auc_score,confusion_matrix,ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 
 #This dataset was already split, trained, validated and tested
@@ -23,6 +23,7 @@ def load_data(path, label):
 
         image = cv2.resize(image, (100,100))   #resizing the image
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) #converting to the grayscale
+        image = image/225.0 #Normalizing the image
 
         image = image.flatten() #Flattening the image to 1D
 
@@ -49,6 +50,9 @@ X_train+= data_ ; y_train+=labels_
 
 data_, labels_ = load_data(os.path.join(data_path,"train","PNEUMONIA"),1)
 X_train+=data_ ; y_train+=labels_
+
+print("\nTrain NORMAL:", np.sum(y_train == 0))
+print("\nTrain PNEUMONIA:", np.sum(y_train == 1))
 
 #Validation
 data_, labels_ = load_data(os.path.join(data_path,"val","NORMAL"),0)
@@ -87,4 +91,29 @@ model_predicted=model_fitted.predict(X_test)
 
 #predicting the validation of the model
 validation_predicted= model_fitted.predict(X_validation)
+
+#getting the metrics from the dataset
+#accuracies
+accuracy1 = accuracy_score(y_test,model_predicted)
+accuracy2 = accuracy_score(y_validation,validation_predicted)
+#precisions
+precision1= precision_score(y_test,model_predicted)
+precision2 = precision_score(y_validation,validation_predicted)
+#recall
+recall1= recall_score(y_test,model_predicted)
+recall2 = recall_score(y_validation,validation_predicted)
+#f1_scores
+f1_1 = f1_score(y_test,model_predicted)
+f1_2 = f1_score(y_validation,validation_predicted)
+#ROC_AUC
+y_probs = model_fitted.predict_proba(X_test)[:,1]
+y_probs_= model_fitted.predict_proba(y_validation)[:,1]
+roc_auc1 = roc_auc_score(y_test, y_probs)
+roc_auc2 = roc_auc_score(y_validation,y_probs_)
+
+print("\nROC-AUC1:", roc_auc1 ,"and ROC-AUC2:", roc_auc2)
+print("\nThe accuracy of the tree is: ",accuracy1,"and the validation accuracy is: ",accuracy2)
+print("\nThe precision1 score is: ",precision1, "and the precision2 score is: ",precision2)
+print("\nThe recall score1 is: ",recall1, "and the recall score2 is:",recall2)
+print("\nThe f1 score1 is: ",f1_1, "and the f1 score2 is: ",f1_2)
 
