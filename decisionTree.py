@@ -82,3 +82,9 @@ model_fitted = DecisionTreeClassifier(min_impurity_decrease=0.01,
                                       random_state=42)
 model_fitted.fit(X_train,y_train)
 
+#predicting the model
+model_predicted=model_fitted.predict(X_test)
+
+#predicting the validation of the model
+validation_predicted= model_fitted.predict(X_validation)
+
