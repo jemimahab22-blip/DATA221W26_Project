@@ -141,3 +141,12 @@ plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.title("Confusion Matrix - Decision Tree")
 plt.show()
+
+tn, fp, fn, tp = cm.ravel() #this flattens each confusion matrix into a 1D and assigns each value
+
+print(f"True Negatives (Correct NORMAL): {tn}")
+print(f"False Positives (Wrongly predicted PNEUMONIA): {fp}")
+print(f"False Negatives (Missed PNEUMONIA): {fn}")
+print(f"True Positives (Correct PNEUMONIA): {tp}")
+
+# In medical diagnosis; False Negatives (FN) are the most critical error because they represent missed pneumonia cases.
