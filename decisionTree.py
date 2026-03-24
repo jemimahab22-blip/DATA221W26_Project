@@ -150,3 +150,19 @@ print(f"False Negatives (Missed PNEUMONIA): {fn}")
 print(f"True Positives (Correct PNEUMONIA): {tp}")
 
 # In medical diagnosis; False Negatives (FN) are the most critical error because they represent missed pneumonia cases.
+
+#np.where returns the indices of an array that satisfies the condition
+misclassified_indices = np.where(model_predicted != y_test)[0]
+plt.figure(figsize=(10,5)) #this is the figure size of the images
+
+#I am looping through each index i in a range of 3
+for i in range(min(3,len(misclassified_indices))):
+    idx = misclassified_indices[i]
+    labels = ["NORMAL", "PNEUMONIA"]
+    plt.subplot(1,3,i+1)
+    plt.imshow(X_test[idx].reshape(100,100), cmap='gray')
+    plt.title(f"True: {labels[y_test[idx]]}\nPredicted: {labels[model_predicted[idx]]}")
+    plt.suptitle("Misclassified X-ray Images (Decision Tree)", fontsize=14)
+    plt.axis('off')
+
+plt.show()
