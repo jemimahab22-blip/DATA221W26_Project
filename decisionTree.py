@@ -33,7 +33,7 @@ def load_data(path, label):
 
 # Download latest version
 path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
-print("Path to dataset files:", path)
+print("\nPath to dataset files:", path)
 print(os.listdir(path))
 
 #I am digging into the path to access the exact data-set to be used
@@ -46,8 +46,7 @@ X_test, y_test=[],[]
 #I am training the model
 data_, labels_ = load_data(os.path.join(data_path ,"train","NORMAL"),0)
 X_train+= data_ ; y_train+=labels_
-print("The number of training dataset is: ", len(X_train),"and",len(y_train))
-print("The shape of the training dataset is: ",len(X_train[0]))
+
 data_, labels_ = load_data(os.path.join(data_path,"train","PNEUMONIA"),1)
 X_train+=data_ ; y_train+=labels_
 
@@ -74,3 +73,12 @@ y_validation= np.array(y_validation)
 
 X_test= np.array(X_test)
 y_test= np.array(y_test)
+
+#model fitting
+model_fitted = DecisionTreeClassifier(min_impurity_decrease=0.01,
+                                      min_samples_split=2,
+                                      criterion='entropy',
+                                      max_depth=5,
+                                      random_state=42)
+model_fitted.fit(X_train,y_train)
+
