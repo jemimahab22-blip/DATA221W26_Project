@@ -83,3 +83,11 @@ features_train, features_val, labels_train, labels_val = train_test_split(
     random_state=42,
     stratify=labels_intermediate
 )
+
+# Data scaling for leakage prevention
+# Calculate mean and standard deviation only on the training set
+pixel_scaler = StandardScaler()
+
+features_train_standardized = pixel_scaler.fit_transform(features_train)
+features_val_standardized = pixel_scaler.transform(features_val)
+features_test_standardized = pixel_scaler.transform(features_test)
