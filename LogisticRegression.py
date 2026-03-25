@@ -56,3 +56,9 @@ def load_and_flatten_images(base_path, size):
 print(f"\nProcessing images (Resizing to {dataset_image_resized}x{dataset_image_resized})...")
 load_and_flatten_images(download_dataset_path, dataset_image_resized)
 
+# Convert data to numerical arrays
+pneumonia_feature_matrix = np.array(data_from_flattened_images_in_dataset)
+pneumonia_label_vector = np.array(labels_from_flattened_images_in_dataset)
+
+print(f"Total images loaded: {len(pneumonia_feature_matrix)}")
+print(f"Pixels per image (features): {pneumonia_feature_matrix.shape[1]}")
