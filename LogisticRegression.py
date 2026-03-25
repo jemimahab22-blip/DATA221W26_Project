@@ -102,4 +102,20 @@ print("\nEvaluating Model on Test Set...")
 test_predictions = logistic_baseline_model.predict(features_val_standardized)  #0 or 1 for confusion matrix and F1 score
 
 # Probability scores
-test_predictions_probabilities = logistic_baseline_model.predict_proba(features_val_standardized) [:, 1]
+test_prediction_probabilities = logistic_baseline_model.predict_proba(features_val_standardized) [:, 1]
+
+# Calculations of final metrics
+test_accuracy = accuracy_score(labels_test, test_predictions)
+test_recall = recall_score(labels_test, test_predictions)
+test_roc_auc_score = roc_auc_score(labels_test, test_prediction_probabilities)
+test_precision = precision_score(labels_test, test_predictions)
+test_f1_score = f1_score(labels_test, test_predictions)
+
+print('~' * 30)
+print('LOGISTIC REGRESSION PERFORMANCE:')
+print(f"Test Accuracy: {test_accuracy}")
+print(f"Test Recall: {test_recall}")
+print(f"Test Precision: {test_precision}")
+print(f"Test F1-Score: {test_f1_score}")
+print('ROC-AUC:', test_roc_auc_score)
+print('~' * 30)
