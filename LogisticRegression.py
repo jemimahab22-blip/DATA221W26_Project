@@ -24,3 +24,20 @@ def load_and_flatten_images(base_path, size):
     categories = ['NORMAL', 'PNEUMONIA']
 
     dataset_root = os.path.join(base_path, 'chest_xray')
+
+    for folder in folders:
+        for category in categories:
+            folder_path = os.path.join(dataset_root, folder, category)
+            # 0 represents normal, 1 represents pneumonia
+            class_number = categories.index(category)
+
+            if not os.path.exists(folder_path):
+                continue
+
+            for image_name in os.listdir(folder_path):
+                try:
+                    image_path = os.path.join(folder_path, image_name)
+                    # Now load it in as greyscale
+                    image_array = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                    if image_array is None:
+                        continue
