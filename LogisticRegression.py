@@ -94,5 +94,12 @@ features_test_standardized = pixel_scaler.transform(features_test)
 
 # Train the model
 print("\nTraining Logistic Regression Baseline...")
-logistic_baseline_model = LogisticRegression(max_iter=1000, random_state=42) # 100x100 pixels need more iterations to find best fit, hence max_iter should be high
+logistic_baseline_model = LogisticRegression(max_iter=1000, random_state=42)  # 100x100 pixels need more iterations to find best fit, hence max_iter should be high
 logistic_baseline_model.fit(features_train_standardized, labels_train)
+
+# Evaluate model on test set
+print("\nEvaluating Model on Test Set...")
+test_predictions = logistic_baseline_model.predict(features_val_standardized)  #0 or 1 for confusion matrix and F1 score
+
+# Probability scores
+test_predictions_probabilities = logistic_baseline_model.predict_proba(features_val_standardized) [:, 1]
