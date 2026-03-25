@@ -41,3 +41,14 @@ def load_and_flatten_images(base_path, size):
                     image_array = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
                     if image_array is None:
                         continue
+
+                    # Resize image to 100x100
+                    resized_array = cv2.resize(image_array, (size, size))
+
+                    # Flatten image to 1D array
+                    flattened_image = resized_array.flatten()
+
+                    data_from_flattened_images_in_dataset.append(flattened_image)
+                    labels_from_flattened_images_in_dataset.append(class_number)
+                except Exception as e:
+                    pass
