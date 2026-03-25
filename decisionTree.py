@@ -2,6 +2,7 @@ import numpy as np
 import os
 import cv2
 import kagglehub
+from numpy.ma.core import reshape
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score,recall_score,precision_score,f1_score,roc_auc_score,confusion_matrix
 import matplotlib.pyplot as plt
@@ -116,40 +117,49 @@ print(f"Test Accuracy: {accuracy1:.4f}")
 print(f"Validation Accuracy: {accuracy2:.4f}")
 print(f"Precision: {precision1:.4f}")
 print(f"Recall: {recall1:.4f}")
-print(f"F1 Score: {f1_1:.4f}")
-print(f"ROC-AUC: {roc_auc1:.4f}")
+print(f"F1 Score(Test): {f1_1:.4f}")
+print(f"ROC-AUC(Test): {roc_auc1:.4f}")
 
+"""
 # Interpretation:
-# High recall is important in this problem because missing pneumonia cases (false negatives)
-# can be dangerous in a medical context.
+# High recall is important in this problem because missing pneumonia cases (false negatives) 
+#can be dangerous in a medical context.
 # Precision shows how reliable positive predictions are.
+"""
 
-#getting the confusion matrix between the dataset
-cm = confusion_matrix(y_test,model_predicted)
-print("\nThis is the confusion matrix for the training dataset: ",cm)
+# adding the cross-validation-score
+from sklearn.model_selection import cross_val_score
 
-import seaborn as sns
+cv_f1 = cross_val_score(model_fitted, X_train, y_train, cv=5, scoring='f1')
+cv_auc = cross_val_score(model_fitted, X_train, y_train, cv=5, scoring='roc_auc')
 
-sns.heatmap(cm,
-            annot=True,
-            fmt='d',
-            cmap='Blues',
-            xticklabels=["NORMAL", "PNEUMONIA"],
-            yticklabels=["NORMAL", "PNEUMONIA"])
+print("\n--- Cross-Validation Stability ---")
+print(f"F1 Score CV Mean: {cv_f1.mean():.4f}")
+print(f"F1 Score CV Std: {cv_f1.std():.4f}")
+print(f"ROC-AUC CV Mean: {cv_auc.mean():.4f}")
+print(f"ROC-AUC CV Std: {cv_auc.std():.4f}")
+"""
+Interpretation:
+-Low standard deviation indicates the model performs consistently across the folds,
+-meaning it is stable and not overly sensitive to the training data.
+"""
 
-plt.xlabel("Predicted")
-plt.ylabel("Actual")
-plt.title("Confusion Matrix - Decision Tree")
+# getting the most efficient feature in the decision tree
+importance = model_fitted.feature_importances_
+
+importance_image = importance.reshape(100,100)
+
+plt.imshow(importance_image,cmap='hot')
+plt.colorbar()
+plt.title("Decision Tree most influential feature.")
+plt.ylabel("Pixel y position (Length)")
+plt.xlabel("Pixel X position (width)")
+plt.axis('on')
 plt.show()
+# Interpretation:
+#The bright regions represent the pixels that strongly influence classification.
+#this provides insight into which the areas of the X-ray model relies on.
 
-tn, fp, fn, tp = cm.ravel() #this flattens each confusion matrix into a 1D and assigns each value
-
-print(f"True Negatives (Correct NORMAL): {tn}")
-print(f"False Positives (Wrongly predicted PNEUMONIA): {fp}")
-print(f"False Negatives (Missed PNEUMONIA): {fn}")
-print(f"True Positives (Correct PNEUMONIA): {tp}")
-
-# In medical diagnosis; False Negatives (FN) are the most critical error because they represent missed pneumonia cases.
 
 #np.where returns the indices of an array that satisfies the condition
 misclassified_indices = np.where(model_predicted != y_test)[0]
@@ -166,3 +176,18 @@ for i in range(min(3,len(misclassified_indices))):
     plt.axis('off')
 
 plt.show()
+
+"""
+Preprocessing is applied independently to each dataset split.
+No information from validation/test is used during training (prevents data leakage).
+The dataset is already split into train/val/test with class distribution preserved.
+
+Limitation:
+-Decision Trees are not well-suited for image data.
+-Flattening images removes spatial relationships between pixels,
+-which reduces the model's ability to detect meaningful patterns.
+
+Future Improvement:
+-Convolutional Neural Networks (CNNs) would perform better
+-because they preserve spatial structure in images.
+"""
