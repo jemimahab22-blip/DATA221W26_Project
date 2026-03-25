@@ -10,13 +10,13 @@ import numpy as np
 
 # TODO: Load the dataset and define the subfolder path
 
-path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
-print("Path to dataset files:", path)
-train_path = os.path.join(path, "chest_xray", "train")
-data_from_images_in_dataset= []
-labels_from_images_in_dataset = []
+download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
+print("Path to dataset files:", download_dataset_path)
+train_dataset_path = os.path.join(download_dataset_path, "chest_xray", "train")
+data_from_flattened_images_in_dataset= []
+labels_from_flattened_images_in_dataset = []
 
-IMAGE_SIZE = 100
+dataset_image_resized = 100
 
 # TODO: Change image into vector to work for KNN (RESIZE + FLATTEN)
 
