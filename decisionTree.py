@@ -190,4 +190,26 @@ Limitation:
 Future Improvement:
 -Convolutional Neural Networks (CNNs) would perform better
 -because they preserve spatial structure in images.
-"""
+
+Success Criteria Evaluation met:
+
+1. Performance (F1-score and ROC-AUC):
+- Decision Tree F1 Score: {:.4f}
+- Decision Tree ROC-AUC: {:.4f}
+
+These values will be compared against the Logistic Regression baseline (provided separately) to determine if performance is improved.
+
+2. Stability:
+- Cross-validation shows mean F1 of {:.4f} with std {:.4f}
+- Cross-validation shows mean ROC-AUC of {:.4f} with std {:.4f}
+
+Low standard deviation indicates stable model performance.
+
+3. Interpretability:
+- Feature importance visualization highlights which pixels influence decisions.
+- This is a key advantage of Decision Trees over Logistic Regression.
+
+Conclusion:
+- The Decision Tree (meets / does not meet) the success criteria depending on
+  whether its F1 and ROC-AUC exceed the Logistic Regression baseline.
+""".format(f1_1, roc_auc1, cv_f1.mean(), cv_f1.std(), cv_auc.mean(), cv_auc.std())
