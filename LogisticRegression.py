@@ -119,3 +119,13 @@ print(f"Test Precision: {test_precision}")
 print(f"Test F1-Score: {test_f1_score}")
 print('ROC-AUC:', test_roc_auc_score)
 print('~' * 30)
+
+# Visualization
+# Confusion matrix to see where the model failed to correctly classify the images
+pneumonia_confusion_matrix = confusion_matrix(labels_test, test_predictions)
+
+plt.title('Logistic Regression (Baseline) Confusion Matrix')
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+plt.tight_layout()
+plt.show()
