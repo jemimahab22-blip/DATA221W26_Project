@@ -16,3 +16,11 @@ print("Path to dataset files:", download_dataset_path)
 dataset_image_resized = 100
 data_from_flattened_images_in_dataset = []
 labels_from_flattened_images_in_dataset = []
+
+# Load data and preprocess
+# This goes through the Kaggle dataset, resizes, and flattens the images.
+def load_and_flatten_images(base_path, size):
+    folders = ['train', 'test', 'val']
+    categories = ['NORMAL', 'PNEUMONIA']
+
+    dataset_root = os.path.join(base_path, 'chest_xray')
