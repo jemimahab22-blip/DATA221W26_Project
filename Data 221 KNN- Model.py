@@ -38,8 +38,14 @@ for image_file_name in os.listdir(category_folder_directory):
     flattened_image_vector_for_grayscale = resized_image_array_for_grayscale.flatten()
     data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
     labels_from_flattened_images_in_dataset.append(labels_for_category)
+
 # TODO: Convert to arrays
 
+X = np.array(data_from_flattened_images_in_dataset)
+y = np.array(labels_from_flattened_images_in_dataset)
+print("Shape of the data from flattened image: ", X.shape)
+
 # TODO: Train test split
+
 
 # TODO: Apply KNN
