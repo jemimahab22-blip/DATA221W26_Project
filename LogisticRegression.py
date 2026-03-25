@@ -52,3 +52,7 @@ def load_and_flatten_images(base_path, size):
                     labels_from_flattened_images_in_dataset.append(class_number)
                 except Exception as e:
                     pass
+
+print(f"\nProcessing images (Resizing to {dataset_image_resized}x{dataset_image_resized})...")
+load_and_flatten_images(download_dataset_path, dataset_image_resized)
+
