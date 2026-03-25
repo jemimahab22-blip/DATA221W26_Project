@@ -74,3 +74,12 @@ features_intermediate, features_test, labels_intermediate, labels_test = train_t
     random_state=42,
     stratify=pneumonia_label_vector
 )
+
+# 2nd split (70% training and 15% validation):
+features_train, features_val, labels_train, labels_val = train_test_split(
+    features_intermediate,
+    labels_intermediate,
+    test_size=0.1765, # 0.1765 of 85% in ~15% of the original
+    random_state=42,
+    stratify=labels_intermediate
+)
