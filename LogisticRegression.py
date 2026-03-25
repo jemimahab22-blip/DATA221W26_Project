@@ -62,3 +62,15 @@ pneumonia_label_vector = np.array(labels_from_flattened_images_in_dataset)
 
 print(f"Total images loaded: {len(pneumonia_feature_matrix)}")
 print(f"Pixels per image (features): {pneumonia_feature_matrix.shape[1]}")
+
+# Data splitting and stratification (70/15/15)
+# Split the data into 3 distinct sets: training, testing, and validation
+
+# 1st split (15% for final test set):
+features_intermediate, features_test, labels_intermediate, labels_test = train_test_split(
+    pneumonia_feature_matrix,
+    pneumonia_label_vector,
+    test_size=0.15,
+    random_state=42,
+    stratify=pneumonia_label_vector
+)
