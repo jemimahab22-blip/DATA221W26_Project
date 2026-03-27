@@ -1,13 +1,11 @@
 import os
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import kagglehub
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix)
+from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score)
 
 # Download the dataset and configure it
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
@@ -119,17 +117,3 @@ print(f"Test Precision: {test_precision}")
 print(f"Test F1-Score: {test_f1_score}")
 print('ROC-AUC:', test_roc_auc_score)
 print('~' * 30)
-
-# Visualization
-# Confusion matrix to see where the model failed to correctly classify the images
-pneumonia_confusion_matrix = confusion_matrix(labels_test, test_predictions)
-
-plt.figure(figsize=(6, 4))
-# Make confusion matrix readable
-sns.heatmap(pneumonia_confusion_matrix, annot=True, fmt="d", cmap='Blues', xticklabels=['Normal', 'Pneumonia'], yticklabels=['Normal', 'Pneumonia'])
-
-plt.title('Logistic Regression (Baseline) Confusion Matrix')
-plt.ylabel('True label')
-plt.xlabel('Predicted label')
-plt.tight_layout()
-plt.show()
