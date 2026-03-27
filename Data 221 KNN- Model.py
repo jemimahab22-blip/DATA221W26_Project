@@ -83,4 +83,7 @@ predictions_for_dataset = knn_model_for_dataset.predict(X_val_scaled)
 accuracy_for_dataset = accuracy_score(y_val, predictions_for_dataset)
 print(f"The Validation Accuracy is : {accuracy_for_dataset}")
 
-# print("Accuracy of KNN: ", accuracy_for_dataset)
+print("\nTesting KNN for test set...")
+test_predictions_for_dataset = knn_model_for_dataset.predict(X_test_scaled)
+test_probability_for_dataset = knn_model_for_dataset.predict_proba(X_test_scaled)[:, 1]
+print(f"The Test Accuracy is : {test_probability_for_dataset}")
