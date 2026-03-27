@@ -73,9 +73,14 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_val_scaled = scaler.transform(X_val)
 X_test_scaled = scaler.transform(X_test)
 
-knn_for_dataset = KNeighborsClassifier()
-knn_for_dataset.fit(X_train, y_train)
-predictions_for_dataset = knn_for_dataset.predict(X_test)
-accuracy_for_dataset = accuracy_score(y_test, predictions_for_dataset)
 
-print("Accuracy of KNN: ", accuracy_for_dataset)
+print("Training for KNN model")
+
+knn_model_for_dataset = KNeighborsClassifier(n_neighbors=5)
+knn_model_for_dataset.fit(X_train_scaled, y_train)
+
+predictions_for_dataset = knn_model_for_dataset.predict(X_val_scaled)
+accuracy_for_dataset = accuracy_score(y_val, predictions_for_dataset)
+print(f"The Validation Accuracy is : {accuracy_for_dataset}")
+
+# print("Accuracy of KNN: ", accuracy_for_dataset)
