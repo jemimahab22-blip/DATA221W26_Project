@@ -7,8 +7,6 @@ import cv2
 import numpy as np
 from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score)
 
-# TODO: Load the dataset and define the subfolder path
-
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
 print("Path to dataset files:", download_dataset_path)
 
@@ -43,17 +41,12 @@ def load_and_flatten_image_for_knn(base_path, size):
             labels_from_flattened_images_in_dataset.append(labels_for_category)
 
 
-
-# TODO: Convert to arrays
-
 X = np.array(data_from_flattened_images_in_dataset)
 y = np.array(labels_from_flattened_images_in_dataset)
 print("Shape of the data from flattened image: ", X.shape)
 
-# TODO: Train test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# TODO: Apply KNN
 knn_for_dataset = KNeighborsClassifier()
 knn_for_dataset.fit(X_train, y_train)
 predictions_for_dataset = knn_for_dataset.predict(X_test)
