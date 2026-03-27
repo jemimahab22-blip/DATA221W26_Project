@@ -87,3 +87,10 @@ print("\nTesting KNN for test set...")
 test_predictions_for_dataset = knn_model_for_dataset.predict(X_test_scaled)
 test_probability_for_dataset = knn_model_for_dataset.predict_proba(X_test_scaled)[:, 1]
 print(f"The Test Accuracy is : {test_probability_for_dataset}")
+
+# Calculating Metrics for KNN
+test_accuracy = accuracy_score(y_test, test_predictions_for_dataset)
+test_recall = recall_score(y_test, test_predictions_for_dataset)
+test_roc_auc_score = roc_auc_score(y_test, test_predictions_for_dataset)
+test_precision = precision_score(y_test, test_predictions_for_dataset)
+test_f1_score = f1_score(y_test, test_predictions_for_dataset)
