@@ -19,10 +19,10 @@ print(f"Loading validation data from: {validation_directory_path}")
 print(f"Loading test data from: {test_directory_path}")
 
 # 3. Load the datasets using Keras
-# We'll use 150x150 as our uniform dimension for the preprocessing pipeline
+# We'll use 100x100 as our uniform dimension for the preprocessing pipeline
 training_dataset = tf.keras.utils.image_dataset_from_directory(
     train_directory_path,
-    image_size=(150, 150),
+    image_size=(100, 100),
     batch_size=32,
     color_mode='grayscale',
     label_mode='binary'
@@ -30,7 +30,7 @@ training_dataset = tf.keras.utils.image_dataset_from_directory(
 
 validation_dataset = tf.keras.utils.image_dataset_from_directory(
     validation_directory_path,
-    image_size=(150, 150),
+    image_size=(100, 100),
     batch_size=32,
     color_mode='grayscale',
     label_mode='binary'
@@ -38,7 +38,7 @@ validation_dataset = tf.keras.utils.image_dataset_from_directory(
 
 test_dataset = tf.keras.utils.image_dataset_from_directory(
     test_directory_path,
-    image_size=(150, 150),
+    image_size=(100, 100),
     batch_size=32,
     color_mode='grayscale',
     label_mode='binary'
@@ -58,8 +58,8 @@ from tensorflow.keras import layers, models
 # We use 'Sequential' to stack layers one after another
 
 model = models.Sequential([
-    # Input Layer: Flattens the 150x150 grayscale image into a 1D vector of 22,500 pixels
-    layers.Flatten(input_shape=(150, 150, 1)),
+    # Input Layer: Flattens the 100x100 grayscale image into a 1D vector of 22,500 pixels
+    layers.Flatten(input_shape=(100, 100, 1)),
 
 # Hidden Layer 1: Learns initial patterns with 128 neurons and ReLU activation
 layers.Dense(128, activation='relu'),
@@ -145,7 +145,7 @@ PROPOSAL ALIGNMENT & RESULTS SUMMARY:
 """
 ARCHITECTURE & PIPELINE ALIGNMENT:
 Standardized Pipeline: Successfully implemented the uniform image resizing 
-(150x150) and pixel normalization (0-1) as planned in the proposal.
+(100x100) and pixel normalization (0-1) as planned in the proposal.
 Model Design: Built a multi-layered Neural Network using ReLU activation 
 to capture non-linear textures in the X-ray data, moving beyond the 'black box' approach by comparing performance metrics
 
