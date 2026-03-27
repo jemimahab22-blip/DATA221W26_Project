@@ -19,43 +19,30 @@ labels_from_flattened_images_in_dataset = []
 def load_and_flatten_image_for_knn(base_path, size):
     train_dataset_path = os.path.join(base_path, "chest_xray", "train")
     image_category_name_from_dataset = ["NORMAL", "PNEUMONIA"]
+
     for category in image_category_name_from_dataset:
         category_folder_directory = os.path.join(train_dataset_path, category)
         labels_for_category = 0 if category == "NORMAL" else 1
 
+        if not(os.path.exists(category_folder_directory)):
+            continue
+
         for image_file_name in os.listdir(category_folder_directory):
             full_image_path = os.path.join(category_folder_directory, image_file_name)
+
             if not os.path.isfile(full_image_path):
                 continue
+
             image_array_for_grayscale = cv2.imread(full_image_path, cv2.IMREAD_GRAYSCALE)
             if image_array_for_grayscale is None:
                 continue
-            resized_image_array_for_grayscale = cv2.resize(
-            image_array_for_grayscale(dataset_image_resized, dataset_image_resized))
-            flattened_image_vector_for_grayscale = resized_image_array_for_grayscale.flatten()
+            resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
+            normalized_image_array_for_grayscale = resized_image_array_for_grayscale/255.0
+            flattened_image_vector_for_grayscale = normalized_image_array_for_grayscale.flatten()
             data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
             labels_from_flattened_images_in_dataset.append(labels_for_category)
 
 
-# TODO: Change image into vector to work for KNN (RESIZE + FLATTEN)
-for category in image_category_name_from_dataset:
-    category_folder_directory = os.path.join(download_dataset_path, image_category_name_from_dataset)
-    labels_for_category = 0 if image_category_name_from_dataset == "NORMAL" else 1
-
-for image_file_name in os.listdir(category_folder_directory):
-
-    full_image_path = os.path.join(category_folder_directory, image_file_name)
-    if not os.path.isfile(full_image_path):
-        continue
-
-    image_array_for_grayscale = cv2.imread(full_image_path, cv2.IMREAD_GRAYSCALE)
-    if image_array_for_grayscale is None:
-        continue
-
-    resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale(dataset_image_resized,dataset_image_resized))
-    flattened_image_vector_for_grayscale = resized_image_array_for_grayscale.flatten()
-    data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
-    labels_from_flattened_images_in_dataset.append(labels_for_category)
 
 # TODO: Convert to arrays
 
