@@ -6,6 +6,7 @@ import os
 import cv2
 import numpy as np
 from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score)
+from sklearn.preprocessing import StandardScaler
 
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
 print("Path to dataset files:", download_dataset_path)
@@ -67,7 +68,10 @@ X_train, X_val, y_train, y_val = train_test_split(
     stratify=y_intermediate
 )
 
-
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_val_scaled = scaler.transform(X_val)
+X_test_scaled = scaler.transform(X_test)
 
 knn_for_dataset = KNeighborsClassifier()
 knn_for_dataset.fit(X_train, y_train)
