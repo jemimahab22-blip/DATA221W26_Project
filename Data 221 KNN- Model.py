@@ -1,5 +1,4 @@
 # import statements
-
 import kagglehub
 from PIL.ImageOps import grayscale
 from sklearn.neighbors import KNeighborsClassifier
@@ -46,6 +45,6 @@ y = np.array(labels_from_flattened_images_in_dataset)
 print("Shape of the data from flattened image: ", X.shape)
 
 # TODO: Train test split
-
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # TODO: Apply KNN
