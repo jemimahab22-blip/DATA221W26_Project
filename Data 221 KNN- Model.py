@@ -50,7 +50,24 @@ y = np.array(labels_from_flattened_images_in_dataset)
 
 print("Shape of the data from flattened image: ", X.shape)
 print("Total number of images loaded: ", len(X))
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+X_intermediate, X_test, y_intermediate, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.15,
+    random_state=42,
+    stratify=y
+)
+
+X_train, X_val, y_train, y_val = train_test_split(
+    X_intermediate,
+    y_intermediate,
+    test_size=0.1765, # 0.1765 of 85% in ~15% of the original
+    random_state=42,
+    stratify=y_intermediate
+)
+
+
 
 knn_for_dataset = KNeighborsClassifier()
 knn_for_dataset.fit(X_train, y_train)
