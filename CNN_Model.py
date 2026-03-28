@@ -1,10 +1,10 @@
 import os
-
 import cv2
 import kagglehub
 import numpy as np
-import sklearn
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
 
 # Downloading the latest version of the dataset
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
@@ -79,9 +79,24 @@ X_train, X_val, y_train, y_val = train_test_split(
     stratify=y_intermediate
 )
 
-# reshaping image specific for CNN
+# reshaping image specific for CNN because it needs to be 4D
 X_train = X_train.reshape(-1,100,100,1)
 X_val = X_val.reshape(-1,100,100,1)
 X_test = X_test.reshape(-1,100,100,1)
 
 print("Shape of CNN input: ", X_train.shape)
+
+# Building the CNN
+cnn_model = Sequential([Conv2D(32, (3,3), activation='relu', input_shape=(100,100,1)),
+                        MaxPooling2D(pool_size=(2,2)),
+
+                        Conv2D(64, (3,3), activation='relu'),
+                        MaxPooling2D(pool_size=(2,2)),
+
+                        Flatten(),
+
+                        Dense(128, activation='relu'),
+                        Dropout(0.5),
+
+                        Dense(1, activation='sigmoid')
+                    ])
