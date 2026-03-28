@@ -1,11 +1,13 @@
 # import statements
 import kagglehub
+from matplotlib import pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 import os
 import cv2
 import numpy as np
-from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score)
+from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix,
+                             ConfusionMatrixDisplay)
 from sklearn.preprocessing import StandardScaler
 
 # Downloading the latest version of the dataset
@@ -114,6 +116,7 @@ test_recall = recall_score(y_test, test_predictions_for_dataset)
 test_roc_auc_score = roc_auc_score(y_test, test_probability_for_dataset)
 test_precision = precision_score(y_test, test_predictions_for_dataset)
 test_f1_score = f1_score(y_test, test_predictions_for_dataset)
+
 # Display Calculating Metrics for KNN
 print('~' * 30)
 print('KNN Performance:')
@@ -123,3 +126,15 @@ print(f"Test Precision: {test_precision}")
 print(f"Test F1-Score: {test_f1_score}")
 print('ROC-AUC:', test_roc_auc_score)
 print('~' * 30)
+
+# Confusion Matrix
+knn_confusion_matrix = confusion_matrix(y_test, test_predictions_for_dataset)
+
+# Make confusion matrix readable
+disp = ConfusionMatrixDisplay(confusion_matrix= knn_confusion_matrix, display_labels=['Normal', 'Pneumonia'])
+disp.plot(cmap='Blues')
+plt.title('KNN Model Confusion Matrix')
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+plt.tight_layout()
+plt.show()
