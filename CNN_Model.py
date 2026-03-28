@@ -87,7 +87,7 @@ X_test = X_test.reshape(-1,100,100,1)
 print("Shape of CNN input: ", X_train.shape)
 
 # Building the CNN
-cnn_model = Sequential([Conv2D(32, (3,3), activation='relu', input_shape=(100,100,1)),
+cnn_model_for_dataset = Sequential([Conv2D(32, (3,3), activation='relu', input_shape=(100,100,1)),
                         MaxPooling2D(pool_size=(2,2)),
 
                         Conv2D(64, (3,3), activation='relu'),
@@ -100,3 +100,22 @@ cnn_model = Sequential([Conv2D(32, (3,3), activation='relu', input_shape=(100,10
 
                         Dense(1, activation='sigmoid')
                     ])
+
+# Compiling the CNN model
+cnn_model_for_dataset.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+
+# training the CNN model
+training_cnn_model = cnn_model_for_dataset.fit(
+    X_train,
+    y_train,
+    epochs=10,
+    validation_data=(X_val, y_val)
+)
+
+# TODO: Predictions
+# TODO: Evaluation for CNN + Confusion Matrix
+# TODO: Display of evaluations
