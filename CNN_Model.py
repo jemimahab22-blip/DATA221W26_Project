@@ -1,8 +1,14 @@
 import os
 
 import cv2
+import kagglehub
+import numpy as np
 import sklearn
 from sklearn.model_selection import train_test_split
+
+# Downloading the latest version of the dataset
+download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
+print("Path to dataset files:", download_dataset_path) # shows that dateset is being loaded
 
 dataset_image_resized = 100
 data_from_images_in_dataset = []
@@ -42,3 +48,14 @@ def load_image(base_path, size):
             # appending data to the files for the image and labels
             data_from_images_in_dataset.append(normalized_image_array_for_grayscale)
             labels_from_images_in_dataset.append(labels_for_category)
+
+# function call
+load_image(download_dataset_path, dataset_image_resized)
+
+# Converts to Arrays
+X = np.array(data_from_images_in_dataset)
+y = np.array(labels_from_images_in_dataset)
+
+print("Shape of the data from image: ", X.shape)
+print("Total number of images loaded: ", len(X))
+
