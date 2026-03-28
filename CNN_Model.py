@@ -78,3 +78,10 @@ X_train, X_val, y_train, y_val = train_test_split(
     random_state=42,
     stratify=y_intermediate
 )
+
+# reshaping image specific for CNN
+X_train = X_train.reshape(-1,100,100,1)
+X_val = X_val.reshape(-1,100,100,1)
+X_test = X_test.reshape(-1,100,100,1)
+
+print("Shape of CNN input: ", X_train.shape)
