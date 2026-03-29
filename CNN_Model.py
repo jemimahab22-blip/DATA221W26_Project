@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
+import matplotlib.pyplot as plt
+from sklearn.metrics import (accuracy_score, recall_score, precision_score, f1_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay, roc_curve)
 
 # Downloading the latest version of the dataset
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
@@ -117,5 +119,32 @@ training_cnn_model = cnn_model_for_dataset.fit(
 )
 
 # TODO: Predictions
+# Generate probabilities 0.0 - 1.0
+y_prediction_probabilities = cnn_model_for_dataset.predict(X_test)
+y_predictions = (y_prediction_probabilities > 0.5).astype('int32')
+
 # TODO: Evaluation for CNN + Confusion Matrix
+# Evaluation
+test_accuracy = accuracy_score(y_test, y_predictions)
+test_recall = recall_score(y_test, y_predictions)
+test_precision = precision_score(y_test, y_predictions)
+test_f1 = f1_score(y_test, y_predictions)
+test_roc_auc = roc_auc_score(y_test, y_prediction_probabilities)
+
+# Confusion Matrix
+plt.figure(figsize=(8, 6))
+confusion_matrix = confusion_matrix(y_test, y_predictions)
+display = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix, display_labels=['NORMAL', 'PNEUMONIA'])
+display.plot(cmap=plt.cm.Blues, values_format='d')
+plt.title('Confusion Matrix: Normal vs Pneumonia')
+plt.show()
+
 # TODO: Display of evaluations
+print('\n' + '~~~'*30)
+print('\n~~~ Model Evaluation ~~~')
+print('~~~'*30)
+print(f'Test Accuracy: {test_accuracy}')
+print(f'Test Recall: {test_recall}')
+print(f'Test Precision: {test_precision}')
+print(f'Test F1-Score: {test_f1}')
+print(f'ROC-AUC: {test_roc_auc}')
