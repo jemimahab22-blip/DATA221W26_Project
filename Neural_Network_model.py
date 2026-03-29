@@ -122,7 +122,7 @@ print("Visualization complete!")
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 
 # 1. Collect all true labels and predictions from the $test_dataset$
-# Since $test_dataset$ is a prefetched dataset, we iterate through it
+# Since test_dataset is a prefetched dataset, we iterate through it
 y_true = []
 y_pred_probs = []
 
