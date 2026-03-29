@@ -119,5 +119,9 @@ training_cnn_model = cnn_model_for_dataset.fit(
 )
 
 # TODO: Predictions
+y_prediction_probabilities = cnn_model_for_dataset.predict(X_test)
+y_predictions = (y_prediction_probabilities > 0.5).astype('int32')
+
 # TODO: Evaluation for CNN + Confusion Matrix
+
 # TODO: Display of evaluations
