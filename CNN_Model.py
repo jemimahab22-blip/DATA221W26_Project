@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
 import matplotlib.pyplot as plt
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import (accuracy_score, recall_score, precision_score, f1_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay, roc_curve)
 
 # Downloading the latest version of the dataset
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
@@ -119,9 +119,15 @@ training_cnn_model = cnn_model_for_dataset.fit(
 )
 
 # TODO: Predictions
+# Generate probabilities 0.0 - 1.0
 y_prediction_probabilities = cnn_model_for_dataset.predict(X_test)
 y_predictions = (y_prediction_probabilities > 0.5).astype('int32')
 
 # TODO: Evaluation for CNN + Confusion Matrix
-
+print('\n~~~ Model Evaluation ~~~')
+test_accuracy = accuracy_score(y_test, y_predictions)
+test_recall = recall_score(y_test, y_predictions)
+test_precision = precision_score(y_test, y_predictions)
+test_f1 = f1_score(y_test, y_predictions)
+test_roc_auc = roc_auc_score(y_test, y_prediction_probabilities)
 # TODO: Display of evaluations
