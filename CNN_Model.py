@@ -124,10 +124,20 @@ y_prediction_probabilities = cnn_model_for_dataset.predict(X_test)
 y_predictions = (y_prediction_probabilities > 0.5).astype('int32')
 
 # TODO: Evaluation for CNN + Confusion Matrix
+# Evaluation
 print('\n~~~ Model Evaluation ~~~')
 test_accuracy = accuracy_score(y_test, y_predictions)
 test_recall = recall_score(y_test, y_predictions)
 test_precision = precision_score(y_test, y_predictions)
 test_f1 = f1_score(y_test, y_predictions)
 test_roc_auc = roc_auc_score(y_test, y_prediction_probabilities)
+
+# Confusion Matrix
+plt.figure(figsize=(8, 6))
+confusion_matrix = confusion_matrix(y_test, y_predictions)
+display = ConfusionMatrixDisplay(confusion_matrix=confusion_matrix, display_labels=['NORMAL', 'PNEUMONIA'])
+display.plot(cmap=plt.cm.Blues, values_format='d')
+plt.title('Confusion Matrix: Normal vs Pneumonia')
+plt.show()
+
 # TODO: Display of evaluations
