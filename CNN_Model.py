@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
+import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
 # Downloading the latest version of the dataset
 download_dataset_path = kagglehub.dataset_download("paultimothymooney/chest-xray-pneumonia")
