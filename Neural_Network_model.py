@@ -202,9 +202,6 @@ SUCCESS CRITERIA MET:
 The model demonstrated a strong 'Recall' (Sensitivity), which was a
 primary goal for our group to ensure patient safety.
 
-The Neural Network provided the 'best predictive performance' predicted
-in our abstract due to its ability to process complex image patterns
-better than basic classifiers
 
 
 CONCLUSION:
