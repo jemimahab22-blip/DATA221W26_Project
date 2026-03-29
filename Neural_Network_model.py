@@ -119,6 +119,40 @@ plt.show()
 
 print("Visualization complete!")
 
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+
+# 1. Collect all true labels and predictions from the $test_dataset$
+# Since $test_dataset$ is a prefetched dataset, we iterate through it
+y_true = []
+y_pred_probs = []
+
+for images, labels in test_dataset:
+    y_true.extend(labels.numpy())
+    preds = model.predict(images, verbose=0)
+    y_pred_probs.extend(preds)
+
+y_true = np.array(y_true).flatten()
+y_pred_probs = np.array(y_pred_probs).flatten()
+y_pred = (y_pred_probs > 0.5).astype(int)
+
+# 2. Calculate the Metrics
+accuracy = accuracy_score(y_true, y_pred)
+precision = precision_score(y_true, y_pred)
+recall = recall_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred)
+roc_auc = roc_auc_score(y_true, y_pred_probs)
+
+# 3. Print the results clearly
+print("\n==========================================")
+print("     DETAILED MODEL PERFORMANCE METRICS")
+print("==========================================")
+print(f"Accuracy:  {accuracy:.4f}")
+print(f"Precision: {precision:.4f}")
+print(f"Recall:    {recall:.4f}")
+print(f"F1-Score:  {f1:.4f}")
+print(f"ROC-AUC:   {roc_auc:.4f}")
+print("==========================================\n")
+
 """
 Pneumonia Detection: Neural Network Implementation
 Student: Ruth Igogo
