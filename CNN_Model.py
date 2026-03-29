@@ -125,7 +125,6 @@ y_predictions = (y_prediction_probabilities > 0.5).astype('int32')
 
 # TODO: Evaluation for CNN + Confusion Matrix
 # Evaluation
-print('\n~~~ Model Evaluation ~~~')
 test_accuracy = accuracy_score(y_test, y_predictions)
 test_recall = recall_score(y_test, y_predictions)
 test_precision = precision_score(y_test, y_predictions)
@@ -141,3 +140,11 @@ plt.title('Confusion Matrix: Normal vs Pneumonia')
 plt.show()
 
 # TODO: Display of evaluations
+print('\n' + '~~~'*30)
+print('\n~~~ Model Evaluation ~~~')
+print('~~~'*30)
+print(f'Test Accuracy: {test_accuracy}')
+print(f'Test Recall: {test_recall}')
+print(f'Test Precision: {test_precision}')
+print(f'Test F1-Score: {test_f1}')
+print(f'ROC-AUC: {test_roc_auc}')
