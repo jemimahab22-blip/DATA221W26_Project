@@ -144,7 +144,7 @@ roc_auc = roc_auc_score(y_true, y_pred_probs)
 
 # 3. Print the results clearly
 print("\n==========================================")
-print("     DETAILED MODEL PERFORMANCE METRICS")
+print("     DETAILED MODEL PERFORMANCE METRICS(NEURAL NETWORK MODEL)")
 print("==========================================")
 print(f"Accuracy:  {accuracy:.4f}")
 print(f"Precision: {precision:.4f}")
