@@ -6,8 +6,7 @@ from sklearn.model_selection import train_test_split
 import os
 import cv2
 import numpy as np
-from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix,
-                             ConfusionMatrixDisplay)
+from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, ConfusionMatrixDisplay)
 from sklearn.preprocessing import StandardScaler
 
 # Downloading the latest version of the dataset
@@ -24,40 +23,39 @@ labels_from_flattened_images_in_dataset = []
 
 # created a function to load and flatten the images for KNN similar format used in other models as well
 def load_and_flatten_image_for_knn(base_path, size):
-    train_dataset_path = os.path.join(base_path, "chest_xray", "train")  # the dataset path
-    image_category_name_from_dataset = ["NORMAL", "PNEUMONIA"] # what the category names are
+    folders = ['train', 'test', 'val']
+    categories = ['NORMAL', 'PNEUMONIA']
 
-# this for loop goes through the image categories
-    for category in image_category_name_from_dataset:
-        category_folder_directory = os.path.join(train_dataset_path, category)
-        labels_for_category = 0 if category == "NORMAL" else 1
+    dataset_root = os.path.join(base_path, 'chest_xray')
 
-# checks if the path exists
-        if not(os.path.exists(category_folder_directory)):
-            continue
+    for folder in folders:
+        for category in categories:
+            folder_path = os.path.join(dataset_root, folder, category)
+            # 0 represents normal, 1 represents pneumonia
+            class_number = categories.index(category)
 
-# for loop that checks for conditions in
-
-        for image_file_name in os.listdir(category_folder_directory):
-            full_image_path = os.path.join(category_folder_directory, image_file_name)
-
-            if not os.path.isfile(full_image_path):
+            if not os.path.exists(folder_path):
                 continue
 
-# loads and converts image to greyscale so 1 channel only and not all RGB just brightness
-            image_array_for_grayscale = cv2.imread(full_image_path, cv2.IMREAD_GRAYSCALE)
-            if image_array_for_grayscale is None:
-                continue
+            for image_name in os.listdir(folder_path):
+                try:
+                    image_path = os.path.join(folder_path, image_name)
+                    # Now load it in as greyscale
+                    image_array_for_grayscale = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                    if image_array_for_grayscale is None:
+                        continue
 
-            # resizes image to 100 x 100
-            resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
-            # normalizes image
-            normalized_image_array_for_grayscale = resized_image_array_for_grayscale/255.0
-            # flattens image to 1D array
-            flattened_image_vector_for_grayscale = normalized_image_array_for_grayscale.flatten()
-            # appending data to the files for the image and labels
-            data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
-            labels_from_flattened_images_in_dataset.append(labels_for_category)
+                    # Resize image to 100x100
+                    resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
+                    # normalizes image
+                    normalized_image_array_for_grayscale = resized_image_array_for_grayscale / 255.0
+                    # flattens image to 1D array
+                    flattened_image_vector_for_grayscale = normalized_image_array_for_grayscale.flatten()
+
+                    data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
+                    labels_from_flattened_images_in_dataset.append(class_number)
+                except Exception as e:
+                    pass
 
 # Function call
 load_and_flatten_image_for_knn(download_dataset_path, dataset_image_resized)
