@@ -17,39 +17,36 @@ data_from_images_in_dataset = []
 labels_from_images_in_dataset = []
 
 def load_image(base_path, size):
-    train_dataset_path = os.path.join(base_path, "chest_xray", "train")  # the dataset path
-    image_category_name_from_dataset = ["NORMAL", "PNEUMONIA"]  # what the category names are
+    folders = ['train', 'test', 'val']
+    categories = ['NORMAL', 'PNEUMONIA']
 
-    # this for loop goes through the image categories
-    for category in image_category_name_from_dataset:
-        category_folder_directory = os.path.join(train_dataset_path, category)
-        labels_for_category = 0 if category == "NORMAL" else 1
+    dataset_root = os.path.join(base_path, 'chest_xray')
 
-        # checks if the path exists
-        if not (os.path.exists(category_folder_directory)):
-            continue
+    for folder in folders:
+        for category in categories:
+            folder_path = os.path.join(dataset_root, folder, category)
+            # 0 represents normal, 1 represents pneumonia
+            class_number = categories.index(category)
 
-        # for loop that checks for conditions in
-
-        for image_file_name in os.listdir(category_folder_directory):
-            full_image_path = os.path.join(category_folder_directory, image_file_name)
-
-            if not os.path.isfile(full_image_path):
+            if not os.path.exists(folder_path):
                 continue
 
-            # loads and converts image to greyscale so 1 channel only and not all RGB just brightness
-            image_array_for_grayscale = cv2.imread(full_image_path, cv2.IMREAD_GRAYSCALE)
-            if image_array_for_grayscale is None:
-                continue
+            for image_name in os.listdir(folder_path):
+                try:
+                    image_path = os.path.join(folder_path, image_name)
+                    # Now load it in as greyscale
+                    image_array = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                    if image_array is None:
+                        continue
 
-            # resizes image to 100 x 100
-            resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
-            # normalizes image
-            normalized_image_array_for_grayscale = resized_image_array_for_grayscale / 255.0
+                    # Resize image to 100x100
+                    resized_array = cv2.resize(image_array, (size, size))
+                    normalized_image_array = resized_array / 255.0
 
-            # appending data to the files for the image and labels
-            data_from_images_in_dataset.append(normalized_image_array_for_grayscale)
-            labels_from_images_in_dataset.append(labels_for_category)
+                    data_from_images_in_dataset.append(normalized_image_array)
+                    labels_from_images_in_dataset.append(class_number)
+                except Exception as e:
+                    pass
 
 # function call
 load_image(download_dataset_path, dataset_image_resized)
