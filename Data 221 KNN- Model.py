@@ -47,10 +47,8 @@ def load_and_flatten_image_for_knn(base_path, size):
 
                     # Resize image to 100x100
                     resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
-                    # normalizes image
-                    normalized_image_array_for_grayscale = resized_image_array_for_grayscale / 255.0
                     # flattens image to 1D array
-                    flattened_image_vector_for_grayscale = normalized_image_array_for_grayscale.flatten()
+                    flattened_image_vector_for_grayscale = resized_image_array_for_grayscale.flatten()
 
                     data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
                     labels_from_flattened_images_in_dataset.append(class_number)
