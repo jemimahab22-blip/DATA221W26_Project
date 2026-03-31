@@ -23,37 +23,31 @@ labels_from_flattened_images_in_dataset = []
 
 # created a function to load and flatten the images for KNN similar format used in other models as well
 def load_and_flatten_image_for_knn(base_path, size):
-    folders = ['train', 'test', 'val']
-    categories = ['NORMAL', 'PNEUMONIA']
+    train_dataset_path = os.path.join(base_path, "chest_xray", "train")
+    image_category_name_from_dataset = ["NORMAL", "PNEUMONIA"]
 
-    dataset_root = os.path.join(base_path, 'chest_xray')
+    for category in image_category_name_from_dataset:
+        category_folder_directory = os.path.join(train_dataset_path, category)
+        labels_for_category = 0 if category == "NORMAL" else 1
 
-    for folder in folders:
-        for category in categories:
-            folder_path = os.path.join(dataset_root, folder, category)
-            # 0 represents normal, 1 represents pneumonia
-            class_number = categories.index(category)
+        if not (os.path.exists(category_folder_directory)):
+            continue
 
-            if not os.path.exists(folder_path):
+        for image_file_name in os.listdir(category_folder_directory):
+            full_image_path = os.path.join(category_folder_directory, image_file_name)
+
+            if not os.path.isfile(full_image_path):
                 continue
 
-            for image_name in os.listdir(folder_path):
-                try:
-                    image_path = os.path.join(folder_path, image_name)
-                    # Now load it in as greyscale
-                    image_array_for_grayscale = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-                    if image_array_for_grayscale is None:
-                        continue
+            image_array_for_grayscale = cv2.imread(full_image_path, cv2.IMREAD_GRAYSCALE)
+            if image_array_for_grayscale is None:
+                continue
 
-                    # Resize image to 100x100
-                    resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
-                    # flattens image to 1D array
-                    flattened_image_vector_for_grayscale = resized_image_array_for_grayscale.flatten()
-
-                    data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
-                    labels_from_flattened_images_in_dataset.append(class_number)
-                except Exception as e:
-                    pass
+            resized_image_array_for_grayscale = cv2.resize(image_array_for_grayscale, (size, size))
+            normalized_image_array_for_grayscale = resized_image_array_for_grayscale / 255.0
+            flattened_image_vector_for_grayscale = normalized_image_array_for_grayscale.flatten()
+            data_from_flattened_images_in_dataset.append(flattened_image_vector_for_grayscale)
+            labels_from_flattened_images_in_dataset.append(labels_for_category)
 
 # Function call
 load_and_flatten_image_for_knn(download_dataset_path, dataset_image_resized)
